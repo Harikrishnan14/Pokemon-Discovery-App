@@ -11,7 +11,7 @@ const Home = () => {
                             className="bg-white rounded-xl p-6 relative shadow-md h-68"
                         >
                             <button className="absolute top-4 right-4 bg-green-500 rounded-full w-8 h-8 flex items-center justify-center hover:cursor-pointer hover:bg-green-400 ease-linear transition">
-                                <span className='text-white font-bold  text-xl -mt-1.5'>+</span>
+                                <span className='text-white font-bold text-xl -mt-1.5'>+</span>
                             </button>
                             <div className="flex justify-center">
                                 <div className="w-22 h-22 rounded-full bg-gradient-to-tr from-pink-500 to-purple-500 flex items-center justify-center">
