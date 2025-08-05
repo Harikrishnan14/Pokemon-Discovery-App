@@ -1,12 +1,39 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 const PokemonCard = ({ info }) => {
+    const [isSaved, setIsSaved] = useState(false);
+
+    const handleToggleSave = () => {
+        const storedPokemons = JSON.parse(localStorage.getItem('savedPokemon')) || [];
+
+        const exists = storedPokemons.some((p) => p.id === info.id);
+
+        let updated;
+        if (exists) {
+            updated = storedPokemons.filter((p) => p.id !== info.id);
+        } else {
+            updated = [...storedPokemons, info];
+        }
+        localStorage.setItem('savedPokemon', JSON.stringify(updated));
+        setIsSaved(!exists);
+    };
+
+    useEffect(() => {
+        const saved = JSON.parse(localStorage.getItem('savedPokemon')) || [];
+        setIsSaved(saved.some((p) => p.id === info.id));
+    }, [info.id]);
+
     return (
         <div
             className="bg-white rounded-xl p-6 relative shadow-md h-68"
         >
-            <button className="absolute top-4 right-4 bg-green-500 rounded-full w-8 h-8 flex items-center justify-center hover:cursor-pointer hover:bg-green-400 ease-linear transition">
-                <span className='text-white font-bold text-xl -mt-1.5'>+</span>
+            <button
+                className={`absolute top-4 right-4 ${isSaved ? "bg-red-500" : "bg-green-500"}  rounded-full w-8 h-8 flex items-center justify-center hover:cursor-pointer ${isSaved ? "hover:bg-red-400" : "hover:bg-green-400"} ease-linear transition`}
+                onClick={handleToggleSave}
+            >
+                <span className='text-white font-bold text-xl -mt-1.5'>
+                    {isSaved ? "x" : "+"}
+                </span>
             </button>
             <div className="flex justify-center">
                 <div className="w-22 h-22 rounded-full bg-gradient-to-tr from-pink-500 to-purple-500 flex items-center justify-center">
