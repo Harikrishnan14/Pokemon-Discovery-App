@@ -9,13 +9,13 @@ const Header = () => {
             <p className='font-normal text-lg text-center mb-3'>Discover, collect, and organize our favorite Pokemon!</p>
             <div className='flex items-center justify-center gap-6'>
                 <button
-                    className='px-5 py-2 bg-violet-400 rounded-full font-bold text-white hover:cursor-pointer hover:bg-violet-600 ease-linear transition'
+                    className='px-5 py-2 bg-purple-700 rounded-full font-bold text-white hover:cursor-pointer hover:bg-purple-500 ease-linear transition'
                     onClick={() => navigate('/')}
                 >
                     🔍 Discover Pokemon
                 </button>
                 <button
-                    className='px-5 py-2 bg-blue-400 rounded-full font-bold text-white hover:cursor-pointer hover:bg-blue-600 ease-linear transition'
+                    className='px-5 py-2 bg-indigo-400 rounded-full font-bold text-white hover:cursor-pointer hover:bg-indigo-600 ease-linear transition'
                     onClick={() => navigate('/collections')}
                 >
                     📚 My Collection (3)
