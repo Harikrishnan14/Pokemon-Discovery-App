@@ -9,7 +9,7 @@ const MainLayout = () => {
         <div className="flex flex-col h-screen">
             <Header savedCount={savedCount} />
             <main className="flex-1 overflow-hidden bg-indigo-500">
-                <Outlet context={{ setSavedCount }} />
+                <Outlet context={{ setSavedCount, savedCount }} />
             </main>
         </div>
     )

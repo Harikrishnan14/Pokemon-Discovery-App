@@ -27,6 +27,29 @@ const PokemonCard = ({ info }) => {
         setSavedCount(saved?.length)
     }, [info.id]);
 
+    const typeStyles = {
+        normal: { bg: 'bg-gray-400', emoji: '🔘' },
+        fighting: { bg: 'bg-red-700', emoji: '🥊' },
+        flying: { bg: 'bg-sky-300', emoji: '🕊️' },
+        poison: { bg: 'bg-purple-500', emoji: '☠️' },
+        ground: { bg: 'bg-yellow-700', emoji: '🌍' },
+        rock: { bg: 'bg-yellow-600', emoji: '🪨' },
+        bug: { bg: 'bg-green-600', emoji: '🐛' },
+        ghost: { bg: 'bg-indigo-700', emoji: '👻' },
+        steel: { bg: 'bg-gray-500', emoji: '⚙️' },
+        fire: { bg: 'bg-red-500', emoji: '🔥' },
+        water: { bg: 'bg-blue-400', emoji: '💧' },
+        grass: { bg: 'bg-green-500', emoji: '🌿' },
+        electric: { bg: 'bg-yellow-300', emoji: '⚡' },
+        psychic: { bg: 'bg-pink-400', emoji: '🔮' },
+        ice: { bg: 'bg-blue-200', emoji: '❄️' },
+        dragon: { bg: 'bg-indigo-500', emoji: '🐉' },
+        dark: { bg: 'bg-gray-800', emoji: '🌑' },
+        fairy: { bg: 'bg-pink-300', emoji: '🧚' },
+        stellar: { bg: 'bg-yellow-500', emoji: '🌟' },
+        unknown: { bg: 'bg-gray-600', emoji: '❓' },
+    };
+
     return (
         <div
             className="bg-white rounded-xl p-6 relative shadow-md h-68"
@@ -42,19 +65,27 @@ const PokemonCard = ({ info }) => {
             <div className="flex justify-center">
                 <div className="w-22 h-22 rounded-full bg-gradient-to-tr from-pink-500 to-purple-500 flex items-center justify-center">
                     <span className='text-3xl'>
-                        🔥
+                        {typeStyles[info?.types[0].type?.name].emoji}
                     </span>
                 </div>
             </div>
             <h2 className="text-center font-bold text-xl text-gray-900 mt-4">
-                {info.name}
+                {info.name.charAt(0).toUpperCase() + info.name.slice(1)}
             </h2>
             <div className="flex justify-center gap-2 my-2">
-                {info?.types.map((type) => (
-                    <span key={type?.slot} className="bg-red-500 text-white text-xs px-3 py-1 rounded-full font-bold">
-                        {type.type.name}
-                    </span>
-                ))}
+                {info?.types.map((type) => {
+                    const typeName = type?.type?.name;
+                    const bgColor = typeStyles[typeName].bg || 'bg-gray-400';
+
+                    return (
+                        <span
+                            key={type?.slot}
+                            className={`${bgColor} text-white text-xs px-3 py-1 rounded-full font-bold`}
+                        >
+                            {type.type.name.charAt(0).toUpperCase() + type.type.name.slice(1)}
+                        </span>
+                    )
+                })}
             </div>
             <div className="flex justify-between text-center text-sm mt-4">
                 <div>
