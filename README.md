@@ -38,3 +38,4 @@
 2. **Tailwind CSS :** Used for responsive design. It offers utility classes to quickly style elements without writing custom CSS from scratch. It's flexible and easy to customize.
 3. **react-router-dom :** A standard library for routing in React applications. It enables navigation between different components/pages while keeping the UI in sync with the URL.
 4. **TanStack Query :** A powerful data-fetching and state management library for React. It simplifies fetching, caching, syncing, and updating server state in your application.
+5. **Dnd Kit :** A modern drag-and-drop toolkit for React. It provides accessible and performant drag-and-drop interactions with full control over sorting, movement, and drop behavior. Great for creating sortable lists, dashboards, or custom interactions.
