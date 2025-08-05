@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react'
+import { useOutletContext } from 'react-router-dom';
 
 const PokemonCard = ({ info }) => {
     const [isSaved, setIsSaved] = useState(false);
+    const { setSavedCount } = useOutletContext()
 
     const handleToggleSave = () => {
         const storedPokemons = JSON.parse(localStorage.getItem('savedPokemon')) || [];
@@ -16,11 +18,13 @@ const PokemonCard = ({ info }) => {
         }
         localStorage.setItem('savedPokemon', JSON.stringify(updated));
         setIsSaved(!exists);
+        setSavedCount(updated?.length)
     };
 
     useEffect(() => {
         const saved = JSON.parse(localStorage.getItem('savedPokemon')) || [];
         setIsSaved(saved.some((p) => p.id === info.id));
+        setSavedCount(saved?.length)
     }, [info.id]);
 
     return (
