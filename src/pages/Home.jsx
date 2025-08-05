@@ -1,45 +1,82 @@
-import { useQueries, useQuery } from '@tanstack/react-query'
-import React, { useEffect, useState } from 'react'
+import { useQuery } from '@tanstack/react-query'
+import React, { useEffect, useRef, useState } from 'react'
 import PokemonCard from '../components/PokemonCard'
 
 const Home = () => {
     const [pokemonDetails, setPokemonDetails] = useState([]);
+    const [nextUrl, setNextUrl] = useState('https://pokeapi.co/api/v2/pokemon?limit=6');
+    const [isFetchingMore, setIsFetchingMore] = useState(false);
+    const [hasFetchedOnce, setHasFetchedOnce] = useState(false);
 
-    const getPokemonList = async () => {
-        const response = await fetch('https://pokeapi.co/api/v2/pokemon?limit=6')
+    const bottomRef = useRef(null);
+
+    const getPokemonList = async (url) => {
+        const response = await fetch(url)
         return await response.json()
     }
 
     const {
         data: list,
-        isLoading: listLoading
+        isLoading: listLoading,
     } = useQuery({
-        queryKey: ['pokemon-list', 6],
-        queryFn: getPokemonList,
+        queryKey: ['pokemon-list', nextUrl],
+        queryFn: () => getPokemonList(nextUrl),
+        enabled: !!nextUrl && !hasFetchedOnce,
     });
 
+    const fetchDetails = async (results) => {
+        const detailPromises = results.map((pokemon) =>
+            fetch(pokemon.url).then((res) => res.json())
+        );
+
+        const details = await Promise.all(detailPromises);
+        setPokemonDetails((prev) => [...prev, ...details]);
+    };
+
     useEffect(() => {
-        const fetchPokemonDetails = async () => {
-            if (list?.results?.length) {
-                const detailPromises = list.results.map((pokemon) =>
-                    fetch(pokemon.url).then((res) => res.json())
-                );
-
-                try {
-                    const results = await Promise.all(detailPromises);
-                    setPokemonDetails(results);
-                } catch (err) {
-                    console.error('Error fetching pokemon details:', err);
-                }
-            }
-        };
-
-        fetchPokemonDetails();
+        if (list?.results) {
+            fetchDetails(list.results);
+            setNextUrl(list.next);
+            setHasFetchedOnce(true);
+        }
     }, [list]);
 
-    console.log(pokemonDetails);
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            (entries) => {
+                const first = entries[0];
+                if (first.isIntersecting && nextUrl && !isFetchingMore) {
+                    loadMore();
+                }
+            },
+            { threshold: 1 }
+        );
 
-    if (listLoading) {
+        const currentRef = bottomRef.current;
+        if (currentRef) observer.observe(currentRef);
+
+        return () => {
+            if (currentRef) observer.unobserve(currentRef);
+        };
+    }, [nextUrl, isFetchingMore]);
+
+    const loadMore = async () => {
+        if (!nextUrl) return;
+
+        setIsFetchingMore(true);
+
+        try {
+            const nextList = await getPokemonList(nextUrl);
+            await fetchDetails(nextList.results);
+            setNextUrl(nextList.next);
+        } catch (err) {
+            console.error('Error loading more Pokémon:', err);
+        } finally {
+            setIsFetchingMore(false);
+        }
+    };
+
+    if (listLoading && pokemonDetails.length === 0) {
         return (
             <div className="flex items-center justify-center mt-8 gap-3">
                 <p className="text-center text-white text-lg">Loading more Pokemon...</p>
@@ -56,6 +93,13 @@ const Home = () => {
                         <PokemonCard key={item.id} info={item} />
                     ))}
                 </div>
+                {isFetchingMore && (
+                    <div className="flex items-center justify-center mt-8 gap-3">
+                        <p className="text-center text-white text-lg">Loading more Pokemon...</p>
+                        <div className="w-6 h-6 border-3 border-white border-t-transparent rounded-full animate-spin"></div>
+                    </div>
+                )}
+                <div ref={bottomRef} className="h-1 mt-4"></div>
             </div>
         </section>
     )

@@ -20,7 +20,7 @@ const PokemonCard = ({ info }) => {
             </h2>
             <div className="flex justify-center gap-2 my-2">
                 {info?.types.map((type) => (
-                    <span className="bg-red-500 text-white text-xs px-3 py-1 rounded-full font-bold">
+                    <span key={type?.slot} className="bg-red-500 text-white text-xs px-3 py-1 rounded-full font-bold">
                         {type.type.name}
                     </span>
                 ))}
