@@ -6,7 +6,7 @@
    Check Node.js and npm Installation:
    Open a terminal ( or command prompt on Windows ) and run the following command to ensure Node.js is installed correctly:
 
-   ![Image](https://github.com/user-attachments/assets/5b6a1362-a3a7-4997-a2ef-9d83be414541)
+   <img width="221" height="100" alt="Image" src="https://github.com/user-attachments/assets/66bf7a95-33df-4520-b7c6-f9045e4b243d" />
 
    [ NOTE : npm comes with Node.js by default, you don't have to install it separately ]
 
