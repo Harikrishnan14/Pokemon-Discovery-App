@@ -30,7 +30,7 @@
    ### `npm run dev`
    
 2. After this, Go to 'http://localhost:5173'
-3. If you want to see the hosted website, Go to 'https://pokemon-discovery-app-hari14.vercel.app'
+3. If you want to see the hosted website, Go to 'https://pokemon-discovery-app-ruddy.vercel.app'
 
 # Packages Used:
 
